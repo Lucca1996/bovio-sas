@@ -12,7 +12,7 @@ export const Navbar = ({ user }: { user: { email: string } | null }) => {
     const router = useRouter();
 
     return (
-        <div className="fixed top-0 left-0 right-0 bg-white dark:bg-gray-900 z-50 border-b h-[4rem]">
+        <div className="fixed top-0 left-0 right-0 bg-white dark:bg-gray-900 z-50 border-b  h-[4rem]">
             <div className="flex items-center justify-between p-4 mx-auto sm:max-w-4xl md:max-w-6xl">
                 <h1 className="text-3xl cursor-pointer" onClick={() => router.push("/")}>
                     Bovio
