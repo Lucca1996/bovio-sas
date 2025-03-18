@@ -1,0 +1,25 @@
+import React from 'react';
+import { getProducts } from '../components/getProducts';
+import CatalogClient from './components/catalog-client';
+import { getCategories } from '../components/getCategories';
+import { getStyles } from './components/getStyles';
+import type { Product, Category, Style } from '@/payload-types';
+
+export default async function CatalogPage() {
+  let products: Product[] | null = null;
+  try {
+    products = await getProducts();
+  } catch (error) {
+    console.error('Error fetching products:', error);
+    products = [];
+  }
+  const categories: Category[] = await getCategories();
+  const styles: Style[] = await getStyles();
+
+  return (
+    <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <h1 className="text-3xl font-bold text-center mb-8">Catálogo de Productos</h1>
+      <CatalogClient initialProducts={products} initialCategories={categories} initialStyles={styles} />
+    </main>
+  );
+}
