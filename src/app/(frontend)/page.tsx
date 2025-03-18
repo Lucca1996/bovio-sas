@@ -2,36 +2,31 @@ import React from "react";
 import { ChooseCategory } from './components/choose-category';
 import { getPayload } from 'payload'; // Se importa getPayload
 import config from '@/payload.config'; // Importamos la configuracion
-import type { Category } from '@/payload-types'; // Importamos el tipo correcto
+import type { Category, Product } from '@/payload-types'; // Importamos el tipo correcto
 import { BannerOne } from "./components/banner-one";
 import { BannerTwo } from "./components/banner-two";
 import { CarouselMain } from "./components/carousel-main";
+import { BannerThree } from "./components/banner-three";
+import { Equipamento } from "./components/equipamento";
+import { FeaturedProducts } from "./components/featured-products";
+import { getCategories } from "./components/getCategories";
+import { getProducts } from "./components/getProducts";
 
 
-export const getCategories = async () => {
-  try {
-      const payloadConfig = await config; //Obtenemos la config
-      const payload = await getPayload({ config: payloadConfig }); // Le pasamos la configuracion a getPayload
-      const { docs: categories } = await payload.find({
-        collection: 'categories',
-        depth: 1, // Ajustar la profundidad en 1 para que me traiga el dato de la imagen.
-        limit: 10,
-        sort: '-createdAt'
-      })
-      return categories as Category[]; // Retornamos las categorias sin hacer un casteo
-    } catch (error) {
-      console.error('Error fetching categories:', error);
-      return [];
-    }
-};
+
 
 export default async function page(){
   const categories = await getCategories(); // Obtiene las categorías
+  const products = await getProducts(); // Obtiene las categorías
   return <main>
         <BannerOne />
         <CarouselMain />
         <BannerTwo />
+        <FeaturedProducts products={products} />
+        <BannerThree />
         <ChooseCategory categories={categories} />
+        <Equipamento />
+
 
   </main>
 }

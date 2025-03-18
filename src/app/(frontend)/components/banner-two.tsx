@@ -30,7 +30,7 @@ export const dataCarouselTop = [
 export const BannerTwo = () => {
     const router = useRouter()
     return (
-        <div className="bg-gray-200 dark:bg-primary">
+        <div className="bg-gray-200 dark:bg-slate-800">
             <Carousel className="w-full max-w-4xl mx-auto"
                 plugins={[
                     
@@ -41,7 +41,7 @@ export const BannerTwo = () => {
                             <Card className="shadow-none border-none bg-transparent">
 
                                 <CardContent className="flex flex-col justify-center p-2 items-center text-center">
-                                    <p className="sm:text-lg text-wrap dark:text-secondary">{title}</p>
+                                    <p className="sm:text-lg text-wrap dark:text-white">{title}</p>
                                 </CardContent>
 
                             </Card>

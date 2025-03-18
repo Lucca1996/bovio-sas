@@ -69,8 +69,10 @@ export interface Config {
   collections: {
     users: User;
     media: Media;
+    style: Style;
     customers: Customer;
     categories: Category;
+    products: Product;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -79,8 +81,10 @@ export interface Config {
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
+    style: StyleSelect<false> | StyleSelect<true>;
     customers: CustomersSelect<false> | CustomersSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
+    products: ProductsSelect<false> | ProductsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -177,6 +181,19 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "style".
+ */
+export interface Style {
+  id: number;
+  title: string;
+  imgUrl?: string | null;
+  slug?: string | null;
+  slugLock?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "customers".
  */
 export interface Customer {
@@ -206,6 +223,25 @@ export interface Category {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "products".
+ */
+export interface Product {
+  id: number;
+  title: string;
+  image?: string | null;
+  price: number;
+  category: number | Category;
+  style: number | Style;
+  isFeatured?: boolean | null;
+  isActive?: boolean | null;
+  publishedAt?: string | null;
+  slug?: string | null;
+  slugLock?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
@@ -220,12 +256,20 @@ export interface PayloadLockedDocument {
         value: number | Media;
       } | null)
     | ({
+        relationTo: 'style';
+        value: number | Style;
+      } | null)
+    | ({
         relationTo: 'customers';
         value: number | Customer;
       } | null)
     | ({
         relationTo: 'categories';
         value: number | Category;
+      } | null)
+    | ({
+        relationTo: 'products';
+        value: number | Product;
       } | null);
   globalSlug?: string | null;
   user:
@@ -314,6 +358,18 @@ export interface MediaSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "style_select".
+ */
+export interface StyleSelect<T extends boolean = true> {
+  title?: T;
+  imgUrl?: T;
+  slug?: T;
+  slugLock?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "customers_select".
  */
 export interface CustomersSelect<T extends boolean = true> {
@@ -335,6 +391,24 @@ export interface CategoriesSelect<T extends boolean = true> {
   name?: T;
   description?: T;
   image?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "products_select".
+ */
+export interface ProductsSelect<T extends boolean = true> {
+  title?: T;
+  image?: T;
+  price?: T;
+  category?: T;
+  style?: T;
+  isFeatured?: T;
+  isActive?: T;
+  publishedAt?: T;
+  slug?: T;
+  slugLock?: T;
   updatedAt?: T;
   createdAt?: T;
 }

@@ -33,19 +33,19 @@ export const dataCarouselTop = [
 export const BannerOne = () => {
     const router = useRouter()
     return (
-        <div className="bg-gray-200 dark:bg-primary mt-14">
-            <Carousel className="w-full max-w-4xl mx-auto"
+        <div className="bg-gray-200 dark:bg-slate-800  mt-14">
+            <Carousel className="w-full  max-w-4xl mx-auto"
                 plugins={[
                    
                 ]}>
                 <CarouselContent>
                     {dataCarouselTop.map(({ id, title, link, description }) => (
                         <CarouselItem key={id} onClick={() => router.push(link)} className="cursor-pointer">
-                            <Card className="shadow-none border-none bg-transparent">
+                            <Card className="shadow-none border-none  bg-transparent">
 
-                                <CardContent className="flex flex-col justify-center p-2 items-center text-center">
-                                    <p className="sm:text-lg text-wrap dark:text-secondary">{title}</p>
-                                    <p className=" text-xs sm:text-sm text-wrap dark:text-secondary">{description}</p>
+                                <CardContent className="flex flex-col  justify-center p-2 items-center text-center">
+                                    <p className="sm:text-lg text-wrap dark:text-white">{title}</p>
+                                    <p className=" text-xs sm:text-sm text-wrap dark:text-white">{description}</p>
                                 </CardContent>
 
                             </Card>
