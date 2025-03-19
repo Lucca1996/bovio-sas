@@ -47,8 +47,18 @@ export default async function page() {
                                         <p className="text-gray-500 dark:text-gray-400">
                                             {user?.email}
                                         </p>
-                                    </div>
                                 </div>
+                                    </div>
+                                            <Separator className="my-6" />
+                                        <div className='flex items-center space-x-4'>
+                                        <Button
+                                        variant="outline"
+                                        className="flex-1"
+                                    >
+                                        Historial de compras
+                                    </Button>
+                                    
+                                        </div>
                             </div>
 
                             <Separator className="my-6" />
@@ -68,6 +78,7 @@ export default async function page() {
                                     <LogoutButton/>
                                     
                                 </div>
+                            <Separator className="my-6" />
                             </div>
                         </div>
                     </div>
