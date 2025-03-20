@@ -10,6 +10,12 @@ export const Customers: CollectionConfig = {
     },
     auth: true,
     fields: [
-        // Add your custom fields here
+        {
+            name: 'favorites',
+            type: 'relationship',
+            relationTo: 'products',
+            hasMany: true,
+            label: 'Favorites',
+          },
     ],
 }
