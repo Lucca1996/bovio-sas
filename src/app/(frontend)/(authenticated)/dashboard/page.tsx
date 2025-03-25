@@ -7,6 +7,8 @@ import config from '@/payload.config'
 import { headers as getHeaders } from 'next/headers.js'
 import LogoutButton from '../components/logout';
 
+export const dynamic = 'force-dynamic';
+
 export default async function page() {
 
     const headers = await getHeaders()

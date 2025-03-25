@@ -6,6 +6,8 @@ import { Product } from '@/payload-types';
 import { ProductCard } from '../../components/shared/product-card';
 import { ProductType } from '../../types/product';
 
+export const dynamic = 'force-dynamic';
+
 export default async function page() {
 
     const user = await getUser();
@@ -32,7 +34,7 @@ export default async function page() {
                                     const prod = product as Product;
                                     return (
                                         <div className="p-1 md:basis-1/2 lg:basis-1/3 group" key={prod.id}>
-                                        <ProductCard {...prod as ProductType} />
+                                            <ProductCard {...prod as ProductType} initialIsFavorite={true} />
                                         </div>
                                     );
                                 })}

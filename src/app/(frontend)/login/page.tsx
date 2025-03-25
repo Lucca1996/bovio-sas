@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 
 import React, {ReactElement} from 'react';
 import LoginForm from './components/LoginForm';

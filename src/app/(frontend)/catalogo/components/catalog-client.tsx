@@ -17,8 +17,8 @@ interface CatalogClientProps {
 const CatalogClient: React.FC<CatalogClientProps> = ({ initialProducts, initialCategories, initialStyles }) => {
   const [products, setProducts] = useState<Product[]>([]); // Initialize as empty array
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [categories, setCategories] = useState<Category[]>(initialCategories);
-  const [styles, setStyles] = useState<Style[]>(initialStyles);
+  const [categories] = useState<Category[]>(initialCategories);
+  const [styles] = useState<Style[]>(initialStyles);
   const router = useRouter();
   const searchParams = useSearchParams();
 

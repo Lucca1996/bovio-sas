@@ -19,5 +19,5 @@ export type ProductType = Omit<PayloadProduct, 'id'> & {
         name: string;
         slug: string;
         };
-
+    initialIsFavorite?: boolean;
 };

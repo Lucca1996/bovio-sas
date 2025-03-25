@@ -7,10 +7,32 @@ import { useRouter } from "next/navigation";
 import { Expand, Heart, ShoppingCart } from "lucide-react";
 import { ProductType } from "../../types/product";
 import { formatPrice } from "../../lib/formatPrice";
+import { useState } from "react";
+import { toggleFavorite } from "../../actions/favoriteActions";
+import { toast } from "sonner";
 
 export const ProductCard = (props: ProductType) => {
     const { style, category, slug, title, image, price, id } = props;
     const router = useRouter();
+    const [isFavorite, setIsFavorite] = useState(props.initialIsFavorite || false);
+
+    const handleFavoriteClick = async () => {
+        try {
+            const newFavoriteStatus = await toggleFavorite(id);
+            setIsFavorite(newFavoriteStatus);
+            toast.success(newFavoriteStatus ? 
+                "Producto añadido a favoritos" : 
+                "Producto eliminado de favoritos"
+            );
+        } catch (error: any) {
+            if (error.message === "Usuario no autenticado") {
+                toast.error("Debes iniciar sesión para guardar favoritos");
+                router.push("/login");
+            } else {
+                toast.error("Error al modificar favoritos");
+            }
+        }
+    };
 
     return (
         <Card className="py-4 border border-gray-200 shadow-none">
@@ -33,9 +55,9 @@ export const ProductCard = (props: ProductType) => {
                             className="text-gray-600"
                         />
                         <IconButton
-                            onClick={console.log}
-                            icon={<Heart size={20}  />}
-                            className="text-gray-600"
+                            onClick={handleFavoriteClick}
+                            icon={<Heart size={20} fill={isFavorite ? "currentColor" : "none"} />}
+                            className={`text-gray-600 ${isFavorite ? "text-red-500" : ""}`}
                         />
                     </div>
                 </div>
