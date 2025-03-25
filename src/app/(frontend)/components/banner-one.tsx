@@ -2,6 +2,7 @@
 import { useRouter } from "next/navigation"
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel"
 import { Card, CardContent } from "@/components/ui/card"
+import Autoplay from "embla-carousel-autoplay"
 
 export const dataCarouselTop = [
     {
@@ -32,26 +33,31 @@ export const dataCarouselTop = [
 
 export const BannerOne = () => {
     const router = useRouter()
+    
+    const plugin = Autoplay({ 
+        delay: 4000, // Un poco más rápido que el carousel principal
+        stopOnInteraction: true 
+    })
+
     return (
-        <div className="bg-gray-200 dark:bg-slate-800  mt-14">
-            <Carousel className="w-full  max-w-4xl mx-auto"
-                plugins={[
-                   
-                ]}>
+        <div className="bg-gray-200 dark:bg-slate-800 mt-16">
+            <Carousel 
+                className="w-full max-w-4xl mx-auto"
+                plugins={[plugin]}
+                onMouseEnter={plugin.stop}
+                onMouseLeave={plugin.reset}
+            >
                 <CarouselContent>
-                    {dataCarouselTop.map(({ id, title, link, description }) => (
+                    {dataCarouselTop.map(({ id, title, description, link }) => (
                         <CarouselItem key={id} onClick={() => router.push(link)} className="cursor-pointer">
-                            <Card className="shadow-none border-none  bg-transparent">
-
-                                <CardContent className="flex flex-col  justify-center p-2 items-center text-center">
-                                    <p className="sm:text-lg text-wrap dark:text-white">{title}</p>
-                                    <p className=" text-xs sm:text-sm text-wrap dark:text-white">{description}</p>
+                            <Card className="shadow-none border-none bg-transparent">
+                                <CardContent className="flex flex-col justify-center p-2 items-center text-center">
+                                    <p className="font-semibold sm:text-lg dark:text-white">{title}</p>
+                                    <p className="text-sm text-muted-foreground dark:text-gray-300">{description}</p>
                                 </CardContent>
-
                             </Card>
                         </CarouselItem>
                     ))}
-
                 </CarouselContent>
             </Carousel>
         </div>

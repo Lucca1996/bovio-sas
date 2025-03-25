@@ -3,6 +3,7 @@ import Image from "next/image";
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel"
 import { Card } from "@/components/ui/card"
 import { useState } from "react";
+import Autoplay from "embla-carousel-autoplay"
 
 export const dataCarouselTop = [
     {
@@ -34,17 +35,15 @@ export const dataCarouselTop = [
 export const CarouselMain = () => {
     const [isLoading, setIsLoading] = useState(true);
 
+    const plugin = Autoplay({ delay: 3500, stopOnInteraction: true })
+
     return (
         <div className="bg-gray-200 dark:bg-primary">
-            <Carousel
+            <Carousel 
                 className="w-full mx-auto"
-                plugins={[
-                  
-                ]}
-                opts={{
-                    loop: true,
-                    align: "start",
-                }}
+                plugins={[plugin]}
+                onMouseEnter={plugin.stop}
+                onMouseLeave={plugin.reset}
             >
                 <CarouselContent>
                     {dataCarouselTop.map(({ id, title, link, blurDataURL }) => (
