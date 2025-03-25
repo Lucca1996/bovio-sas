@@ -4,6 +4,7 @@ import CatalogClient from './components/catalog-client';
 import { getCategories } from '../components/getCategories';
 import { getStyles } from './components/getStyles';
 import type { Product, Category, Style } from '@/payload-types';
+import { getUser } from '../(authenticated)/actions/getUser';
 
 export const dynamic = 'force-dynamic';
 
@@ -15,8 +16,15 @@ export default async function CatalogPage() {
     console.error('Error fetching products:', error);
     products = [];
   }
+
   const categories: Category[] = await getCategories();
   const styles: Style[] = await getStyles();
+  const user = await getUser();
+  
+  // Obtener los IDs de favoritos
+  const favoriteIds = user?.favorites?.map(fav => 
+    typeof fav === 'number' ? fav : fav.id
+  ) || [];
 
   return (
     <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -25,7 +33,8 @@ export default async function CatalogPage() {
         <CatalogClient 
           initialProducts={products} 
           initialCategories={categories} 
-          initialStyles={styles} 
+          initialStyles={styles}
+          initialFavorites={favoriteIds}
         />
       </Suspense>
     </main>

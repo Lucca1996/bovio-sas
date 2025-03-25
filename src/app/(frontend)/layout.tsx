@@ -13,22 +13,26 @@ export const metadata = {
 
 export const dynamic = 'force-dynamic';
 
-export default async function RootLayout(props: { children: React.ReactNode }) {
-  const { children } = props
+export default async function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const user = await getUser();
+
   return (
     <html lang="en">
       <body>
-      <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-        <Navbar user={user} />
-        <main>{children}</main>
-        <Footer/>
-        <Toaster position="top-center" />
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <Navbar user={user} />
+          <main>{children}</main>
+          <Footer/>
+          <Toaster position="top-center" />
         </ThemeProvider>
       </body>
     </html>

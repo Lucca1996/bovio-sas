@@ -12,9 +12,10 @@ interface CatalogClientProps {
   initialProducts: Product[] | null;
   initialCategories: Category[];
   initialStyles: Style[];
+  initialFavorites?: number[];
 }
 
-const CatalogClient: React.FC<CatalogClientProps> = ({ initialProducts, initialCategories, initialStyles }) => {
+const CatalogClient: React.FC<CatalogClientProps> = ({ initialProducts, initialCategories, initialStyles, initialFavorites = [] }) => {
   const [products, setProducts] = useState<Product[]>([]); // Initialize as empty array
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [categories] = useState<Category[]>(initialCategories);
@@ -96,7 +97,10 @@ const CatalogClient: React.FC<CatalogClientProps> = ({ initialProducts, initialC
         ) : (
           products.map((product) => (
             <div className="p-1 md:basis-1/2 lg:basis-1/3 group" key={product.id}>
-              <ProductCard {...product as ProductType} />
+              <ProductCard 
+                {...product as ProductType} 
+                initialIsFavorite={initialFavorites.includes(product.id)}
+              />
             </div>
           ))
         )}

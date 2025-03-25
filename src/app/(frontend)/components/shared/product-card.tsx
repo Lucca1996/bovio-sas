@@ -10,16 +10,28 @@ import { formatPrice } from "../../lib/formatPrice";
 import { useState } from "react";
 import { toggleFavorite } from "../../actions/favoriteActions";
 import { toast } from "sonner";
+import { useFavoriteStore } from '@/store/useFavoriteStore';
 
-export const ProductCard = (props: ProductType) => {
-    const { style, category, slug, title, image, price, id } = props;
+interface ProductCardProps extends ProductType {
+    onFavoriteRemoved?: () => void;
+}
+
+export const ProductCard = (props: ProductCardProps) => {
+    const { style, category, slug, title, image, price, id, onFavoriteRemoved } = props;
     const router = useRouter();
     const [isFavorite, setIsFavorite] = useState(props.initialIsFavorite || false);
+    const { updateFavoritesCount } = useFavoriteStore();
 
     const handleFavoriteClick = async () => {
         try {
             const newFavoriteStatus = await toggleFavorite(id);
             setIsFavorite(newFavoriteStatus);
+            updateFavoritesCount(newFavoriteStatus);
+            
+            if (!newFavoriteStatus && onFavoriteRemoved) {
+                onFavoriteRemoved();
+            }
+
             toast.success(newFavoriteStatus ? 
                 "Producto añadido a favoritos" : 
                 "Producto eliminado de favoritos"

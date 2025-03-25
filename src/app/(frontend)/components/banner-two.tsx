@@ -2,7 +2,6 @@
 import { useRouter } from "next/navigation"
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel"
 import { Card, CardContent } from "@/components/ui/card"
-import Autoplay from "embla-carousel-react"
 
 export const dataCarouselTop = [
     {
