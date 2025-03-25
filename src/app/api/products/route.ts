@@ -13,13 +13,13 @@ export async function GET(req: NextRequest) {
     const where: any = {};
 
     if (category) {
-      where['category.id'] = {
+      where['category'] = {
         equals: parseInt(category, 10),
       };
     }
 
     if (style) {
-      where['style.id'] = {
+      where['style'] = {
         equals: parseInt(style, 10),
       };
     }
@@ -35,4 +35,4 @@ export async function GET(req: NextRequest) {
     console.error('Error fetching products:', error);
     return NextResponse.json([], { status: 500 });
   }
-}
+} 

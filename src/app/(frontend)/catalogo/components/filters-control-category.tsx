@@ -1,11 +1,14 @@
+"use client";
+
 import React from 'react';
 import type { Category, Style } from '@/payload-types';
+import { Button } from '@/components/ui/button';
 
 interface FiltersControlCategoryProps {
   categories: Category[];
   styles: Style[];
-  onCategoryChange: (category: string | null) => void;
-  onStyleChange: (style: string | null) => void;
+  onCategoryChange: (category: number | null) => void;
+  onStyleChange: (style: number | null) => void;
   selectedCategory: string | null;
   selectedStyle: string | null;
 }
@@ -19,42 +22,40 @@ export const FiltersControlCategory: React.FC<FiltersControlCategoryProps> = ({
   selectedStyle,
 }) => {
   return (
-    <div className="flex flex-wrap gap-4">
-      <div className="flex items-center">
-        <label htmlFor="category" className="mr-2">
-          Categoría:
-        </label>
-        <select
-          id="category"
-          className="border border-gray-300 rounded-md px-3 py-2"
-          value={selectedCategory || 'all'}
-          onChange={(e) => onCategoryChange(e.target.value === 'all' ? null : e.target.value)}
+    <div className="flex flex-col gap-4 sm:flex-row sm:justify-between">
+      <div className="flex flex-wrap gap-2">
+        <Button
+          onClick={() => onCategoryChange(null)}
+          variant={!selectedCategory ? "default" : "outline"}
         >
-          <option value="all">Todas</option>
-          {categories.map((category) => (
-            <option key={category.id} value={category.id}>
-              {category.name}
-            </option>
-          ))}
-        </select>
+          Todas las categorías
+        </Button>
+        {categories.map((category) => (
+          <Button
+            key={category.id}
+            onClick={() => onCategoryChange(category.id)}
+            variant={selectedCategory === category.id.toString() ? "default" : "outline"}
+          >
+            {category.name}
+          </Button>
+        ))}
       </div>
-      <div className="flex items-center">
-        <label htmlFor="style" className="mr-2">
-          Estilo:
-        </label>
-        <select
-          id="style"
-          className="border border-gray-300 rounded-md px-3 py-2"
-          value={selectedStyle || 'all'}
-          onChange={(e) => onStyleChange(e.target.value === 'all' ? null : e.target.value)}
+      <div className="flex flex-wrap gap-2">
+        <Button
+          onClick={() => onStyleChange(null)}
+          variant={!selectedStyle ? "default" : "outline"}
         >
-          <option value="all">Todos</option>
-          {styles.map((style) => (
-            <option key={style.id} value={style.id}>
-              {style.title}
-            </option>
-          ))}
-        </select>
+          Todos los estilos
+        </Button>
+        {styles.map((style) => (
+          <Button
+            key={style.id}
+            onClick={() => onStyleChange(style.id)}
+            variant={selectedStyle === style.id.toString() ? "default" : "outline"}
+          >
+            {style.title}
+          </Button>
+        ))}
       </div>
     </div>
   );

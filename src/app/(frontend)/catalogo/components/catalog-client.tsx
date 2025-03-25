@@ -29,32 +29,30 @@ const CatalogClient: React.FC<CatalogClientProps> = ({ initialProducts, initialC
       const category = searchParams.get('category');
       const style = searchParams.get('style');
 
-      // If there are no filters, use the initialProducts
+      // Si no hay filtros, usar los productos iniciales
       if (!category && !style) {
-        if (initialProducts) {
-          setProducts(initialProducts);
-        } else {
-          setProducts([]);
-        }
+        setProducts(initialProducts || []);
         setIsLoading(false);
         return;
       }
 
-      const queryParams = new URLSearchParams();
-      if (category) queryParams.append('where[category.id][equals]', category);
-      if (style) queryParams.append('where[style.id][equals]', style);
-
       try {
+        const queryParams = new URLSearchParams();
+        if (category) queryParams.set('category', category);
+        if (style) queryParams.set('style', style);
+
+        // Usar la nueva ruta de API
         const response = await fetch(`/api/products?${queryParams.toString()}`);
-        const data = await response.json();
-        if (Array.isArray(data)) {
-          setProducts(data);
-        } else {
-          setProducts([]);
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.message || 'Error en la respuesta del servidor');
         }
+        
+        const data = await response.json();
+        setProducts(Array.isArray(data) ? data : []);
       } catch (error) {
         console.error('Error fetching filtered products:', error);
-        setProducts([]); // Set to empty array on error
+        setProducts([]);
       } finally {
         setIsLoading(false);
       }
@@ -63,19 +61,19 @@ const CatalogClient: React.FC<CatalogClientProps> = ({ initialProducts, initialC
     fetchFilteredProducts();
   }, [searchParams, initialProducts]);
 
-  const handleCategoryChange = (newCategory: string | null) => {
-    const currentStyle = searchParams.get('style') || undefined;
+  const handleCategoryChange = (categoryId: number | null) => {
+    const currentStyle = searchParams.get('style');
     const params = new URLSearchParams();
-    if (newCategory && newCategory !== "all") params.set('category', newCategory);
+    if (categoryId !== null) params.set('category', categoryId.toString());
     if (currentStyle) params.set('style', currentStyle);
     router.push(`/catalogo?${params.toString()}`);
   };
 
-  const handleStyleChange = (newStyle: string | null) => {
-    const currentCategory = searchParams.get('category') || undefined;
+  const handleStyleChange = (styleId: number | null) => {
+    const currentCategory = searchParams.get('category');
     const params = new URLSearchParams();
     if (currentCategory) params.set('category', currentCategory);
-    if (newStyle && newStyle !== "all") params.set('style', newStyle);
+    if (styleId !== null) params.set('style', styleId.toString());
     router.push(`/catalogo?${params.toString()}`);
   };
 
@@ -86,8 +84,8 @@ const CatalogClient: React.FC<CatalogClientProps> = ({ initialProducts, initialC
         styles={styles}
         onCategoryChange={handleCategoryChange}
         onStyleChange={handleStyleChange}
-        selectedCategory={searchParams.get('category') || null}
-        selectedStyle={searchParams.get('style') || null}
+        selectedCategory={searchParams.get('category')}
+        selectedStyle={searchParams.get('style')}
       />
       <div className="grid gap-5 mt-8 sm:grid-cols-2 md:grid-cols-3 md:gap-10">
         {isLoading ? (
