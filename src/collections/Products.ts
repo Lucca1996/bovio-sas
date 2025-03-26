@@ -4,6 +4,10 @@ import { anyone } from '../access/anyone'
 
 import { slugField } from '@/fields/slug'
 
+interface RouteParams {
+  slug: string; // Definimos que slug es una cadena
+}
+
 export const Products: CollectionConfig = {
   slug: 'products',
   access: {
@@ -80,5 +84,35 @@ export const Products: CollectionConfig = {
     // This is because the `user` collection has access control locked to protect user privacy
     // GraphQL will also not return mutated user data that differs from the underlying schema
     ...slugField(),
+  ],
+  endpoints: [
+    {
+      path: '/:slug',
+      method: 'get',
+      handler: async (req) => {
+        const { routeParams } = req;
+        
+        // Verificamos que routeParams no sea undefined y que contenga slug
+        if (!routeParams || typeof routeParams.slug !== 'string') {
+          return Response.json({ error: 'Slug no válido' }, { status: 400 });
+        }
+
+        const { slug } = routeParams; // Ahora podemos acceder a slug de forma segura
+        const product = await req.payload.find({
+          collection: 'products',
+          where: {
+            slug: {
+              equals: slug,
+            },
+          },
+        });
+
+        if (!product.docs.length) {
+          return Response.json({ error: 'Producto no encontrado' }, { status: 404 });
+        }
+
+        return Response.json(product.docs[0]);
+      },
+    },
   ],
 }
