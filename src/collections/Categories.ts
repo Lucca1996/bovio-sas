@@ -18,6 +18,12 @@ export const Categories: CollectionConfig = {
       required: true,
     },
     {
+      name: 'slug',
+      type: 'text',
+      required: true,
+      unique: true, // Asegúrate de que sea único
+    },
+    {
       name: 'description', // Descripción de la categoría
       type: 'textarea',
     },

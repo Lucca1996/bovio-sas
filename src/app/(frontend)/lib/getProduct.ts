@@ -1,6 +1,7 @@
 import { getPayload } from 'payload';
 import config from '@/payload.config';
 import { ProductType } from "../types/product";
+import type { Category } from '@/payload-types';
 
 export async function getProduct(slug: string) {
   try {
@@ -28,8 +29,8 @@ export async function getProduct(slug: string) {
         slug: typeof product.style === 'object' ? product.style.slug : '',
       },
       category: {
-        name: typeof product.category === 'object' ? product.category.name : '',
-        slug: typeof product.category === 'object' ? product.category.slug : '',
+        name: typeof product.category === 'object' ? (product.category as Category).name : '',
+        slug: typeof product.category === 'object' ? (product.category as Category).slug : '',
       },
       description: (product as any).description || '',
       contenido: (product as any).contenido || '',

@@ -236,6 +236,7 @@ export interface Product {
 export interface Category {
   id: number;
   name: string;
+  slug: string;
   description?: string | null;
   image?: string | null;
   updatedAt: string;
@@ -391,6 +392,7 @@ export interface CustomersSelect<T extends boolean = true> {
  */
 export interface CategoriesSelect<T extends boolean = true> {
   name?: T;
+  slug?: T;
   description?: T;
   image?: T;
   updatedAt?: T;
