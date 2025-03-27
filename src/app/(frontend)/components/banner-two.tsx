@@ -32,7 +32,7 @@ export const BannerTwo = () => {
     
     const plugin = Autoplay({ 
         delay: 4000, // Tiempo intermedio entre el banner one y el carousel principal
-        stopOnInteraction: true 
+       
     })
 
     return (
@@ -40,8 +40,7 @@ export const BannerTwo = () => {
             <Carousel 
                 className="w-full max-w-4xl mx-auto"
                 plugins={[plugin]}
-                onMouseEnter={plugin.stop}
-                onMouseLeave={plugin.reset}
+              
             >
                 <CarouselContent>
                     {dataCarouselTop.map(({ id, title, link }) => (

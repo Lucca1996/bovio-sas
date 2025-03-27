@@ -16,7 +16,7 @@ interface CatalogClientProps {
 }
 
 const CatalogClient: React.FC<CatalogClientProps> = ({ initialProducts, initialCategories, initialStyles, initialFavorites = [] }) => {
-  const [products, setProducts] = useState<Product[]>([]); // Initialize as empty array
+  const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [categories] = useState<Category[]>(initialCategories);
   const [styles] = useState<Style[]>(initialStyles);
@@ -37,19 +37,23 @@ const CatalogClient: React.FC<CatalogClientProps> = ({ initialProducts, initialC
       }
 
       try {
-        const queryParams = new URLSearchParams();
-        if (category) queryParams.set('category', category);
-        if (style) queryParams.set('style', style);
+        let url = '/api/products?depth=2';
+        
+        if (category) {
+          url += `&where[category][equals]=${category}`;
+        }
+        
+        if (style) {
+          url += `&where[style][equals]=${style}`;
+        }
 
-        // Usar la nueva ruta de API
-        const response = await fetch(`/api/products?${queryParams.toString()}`);
+        const response = await fetch(url);
         if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(errorData.message || 'Error en la respuesta del servidor');
+          throw new Error('Error al obtener los productos');
         }
         
         const data = await response.json();
-        setProducts(Array.isArray(data) ? data : []);
+        setProducts(data.docs || []);
       } catch (error) {
         console.error('Error fetching filtered products:', error);
         setProducts([]);

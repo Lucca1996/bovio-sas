@@ -36,7 +36,6 @@ export const BannerOne = () => {
     
     const plugin = Autoplay({ 
         delay: 4000, // Un poco más rápido que el carousel principal
-        stopOnInteraction: true 
     })
 
     return (
@@ -44,8 +43,7 @@ export const BannerOne = () => {
             <Carousel 
                 className="w-full max-w-4xl mx-auto"
                 plugins={[plugin]}
-                onMouseEnter={plugin.stop}
-                onMouseLeave={plugin.reset}
+               
             >
                 <CarouselContent>
                     {dataCarouselTop.map(({ id, title, description, link }) => (

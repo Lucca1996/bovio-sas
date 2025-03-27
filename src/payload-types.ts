@@ -218,6 +218,7 @@ export interface Product {
   id: number;
   title: string;
   image?: string | null;
+  description?: string | null;
   price: number;
   category: number | Category;
   style: number | Style;
@@ -405,6 +406,7 @@ export interface CategoriesSelect<T extends boolean = true> {
 export interface ProductsSelect<T extends boolean = true> {
   title?: T;
   image?: T;
+  description?: T;
   price?: T;
   category?: T;
   style?: T;

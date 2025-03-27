@@ -35,15 +35,13 @@ export const dataCarouselTop = [
 export const CarouselMain = () => {
     const [isLoading, setIsLoading] = useState(true);
 
-    const plugin = Autoplay({ delay: 3500, stopOnInteraction: true })
+    const plugin = Autoplay({ delay: 3500 })
 
     return (
         <div className="bg-gray-200 dark:bg-primary">
             <Carousel 
                 className="w-full mx-auto"
                 plugins={[plugin]}
-                onMouseEnter={plugin.stop}
-                onMouseLeave={plugin.reset}
             >
                 <CarouselContent>
                     {dataCarouselTop.map(({ id, title, link, blurDataURL }) => (

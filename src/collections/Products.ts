@@ -1,19 +1,17 @@
 import type { CollectionConfig } from 'payload'
 
-import { anyone } from '../access/anyone'
 
 import { slugField } from '@/fields/slug'
 
-interface RouteParams {
-  slug: string; // Definimos que slug es una cadena
-}
+import { anyone } from '../access/anyone'
 
 export const Products: CollectionConfig = {
   slug: 'products',
   access: {
-   
     read: anyone,
-    
+    create: anyone,
+    update: anyone,
+    delete: anyone,
   },
   admin: {
     useAsTitle: 'title',
@@ -27,6 +25,10 @@ export const Products: CollectionConfig = {
     {
       name: 'image',
       type: 'text',
+    },
+    {
+      name: 'description',
+      type: 'textarea',
     },
     {
       name: 'price',
