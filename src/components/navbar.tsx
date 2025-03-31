@@ -1,6 +1,6 @@
 "use client";
 
-import { Heart, ShoppingCart, User, User as UserIcon } from "lucide-react";
+import { Heart, ShoppingCart, User } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { MenuList } from "./menu-list";
 import { ItemsMenuMobile } from "./items-menu-mobile";
@@ -9,17 +9,23 @@ import { IconButton } from "@/app/(frontend)/components/icon-button";
 import { Customer } from "@/payload-types";
 import { useFavoriteStore } from '@/store/useFavoriteStore';
 import { useEffect } from 'react';
+import { useCartStore } from "@/store/useCartStore";
 
 export const NAVBAR_HEIGHT = "4rem"; // 64px
 
 export const Navbar = ({ user }: { user: Customer | null }) => {
     const router = useRouter();
     const { favoritesCount, setFavoritesCount } = useFavoriteStore();
+    const { cartCount, setCartCount } = useCartStore();
     
     useEffect(() => {
         // Inicializar el contador con los favoritos del usuario
         setFavoritesCount(user?.favorites?.length || 0);
     }, [user?.favorites?.length]);
+    useEffect(() => {
+        // Inicializar el contador con los favoritos del usuario
+        setCartCount(user?.cart?.length || 0);
+    }, [user?.cart?.length]);
 
     return (
         <div className="fixed top-0 left-0 right-0 bg-white dark:bg-gray-900 z-50 border-b  h-[4rem]">
@@ -61,11 +67,18 @@ export const Navbar = ({ user }: { user: Customer | null }) => {
                                     </span>
                                 )}
                             </div>
+                            <div className="relative">
                             <IconButton
-                                onClick={() => router.push("/favorites")}
+                                onClick={() => router.push("/cart")}
                                 icon={<ShoppingCart size={20} />}
                                 className="text-gray-600"
-                            />
+                                />
+                                {cartCount > 0 && (
+                                    <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                                        {cartCount}
+                                    </span>
+                                )}
+                                </div>
                         </div>
                                     </div>
                          : 

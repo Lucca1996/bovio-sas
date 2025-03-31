@@ -199,6 +199,7 @@ export interface Style {
 export interface Customer {
   id: number;
   favorites?: (number | Product)[] | null;
+  cart?: (number | Product)[] | null;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -377,6 +378,7 @@ export interface StyleSelect<T extends boolean = true> {
  */
 export interface CustomersSelect<T extends boolean = true> {
   favorites?: T;
+  cart?: T;
   updatedAt?: T;
   createdAt?: T;
   email?: T;

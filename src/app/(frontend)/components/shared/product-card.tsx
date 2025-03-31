@@ -9,18 +9,23 @@ import { ProductType } from "../../types/product";
 import { formatPrice } from "../../lib/formatPrice";
 import { useState } from "react";
 import { toggleFavorite } from "../../actions/favoriteActions";
+import { toggleCart } from "../../actions/cartActions";
 import { toast } from "sonner";
 import { useFavoriteStore } from '@/store/useFavoriteStore';
+import { useCartStore } from "@/store/useCartStore";
 
 interface ProductCardProps extends ProductType {
     onFavoriteRemoved?: () => void;
+    onCartRemoved?: () => void;
 }
 
 export const ProductCard = (props: ProductCardProps) => {
-    const { style, category, slug, title, image, price, id, onFavoriteRemoved } = props;
+    const { style, category, slug, title, image, price, id, onFavoriteRemoved,onCartRemoved } = props;
     const router = useRouter();
     const [isFavorite, setIsFavorite] = useState(props.initialIsFavorite || false);
+    const [isCart, setIsCart] = useState(props.initialIsCart || false);
     const { updateFavoritesCount } = useFavoriteStore();
+    const { updateCartCount } = useCartStore();
 
     const handleFavoriteClick = async () => {
         try {
@@ -45,6 +50,29 @@ export const ProductCard = (props: ProductCardProps) => {
             }
         }
     };
+    const handleCartClick = async () => {
+        try {
+            const newCartStatus = await toggleCart(id);
+            setIsCart(newCartStatus);
+            updateCartCount(newCartStatus);
+            
+            if (!newCartStatus && onCartRemoved) {
+                onCartRemoved();
+            }
+
+            toast.success(newCartStatus ? 
+                "Producto añadido al carrito" : 
+                "Producto eliminado del carrito"
+            );
+        } catch (error: any) {
+            if (error.message === "Usuario no autenticado") {
+                toast.error("Debes iniciar sesión para guardar un carrito");
+                router.push("/login");
+            } else {
+                toast.error("Error al modificar carrito");
+            }
+        }
+    };
 
     return (
         <Card className="py-4 border border-gray-200 shadow-none">
@@ -62,9 +90,9 @@ export const ProductCard = (props: ProductCardProps) => {
                             className="text-gray-600"
                         />
                         <IconButton
-                            onClick={console.log}
-                            icon={<ShoppingCart size={20}  />}
-                            className="text-gray-600"
+                            onClick={handleCartClick}
+                            icon={<ShoppingCart size={20} fill={isCart ? "currentColor" : "none"} />}
+                            className={`text-gray-600 ${isCart ? "text-black" : ""}`}
                         />
                         <IconButton
                             onClick={handleFavoriteClick}

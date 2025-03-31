@@ -20,4 +20,5 @@ export type ProductType = Omit<PayloadProduct, 'id'> & {
         slug: string;
         };
     initialIsFavorite?: boolean;
+    initialIsCart?: boolean;
 };

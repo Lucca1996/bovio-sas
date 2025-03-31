@@ -17,5 +17,12 @@ export const Customers: CollectionConfig = {
             hasMany: true,
             label: 'Favorites',
           },
+        {
+            name: 'cart',
+            type: 'relationship',
+            relationTo: 'products',
+            hasMany: true,
+            label: 'Cart',
+          },
     ],
 }

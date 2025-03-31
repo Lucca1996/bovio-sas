@@ -1,40 +1,39 @@
+// c:\Users\User\Desktop\lucca\payload-sas\src\app\(frontend)\layout.tsx
 import React from 'react'
 import './styles.css'
 import { Navbar } from '@/components/navbar'
-import { ThemeProvider } from '../../components/theme-provider'
 import { Footer } from '@/components/footer'
 import { getUser } from './(authenticated)/actions/getUser'
 import { Toaster } from 'sonner'
+import { ClientLayout } from './components/client-layout' // Import ClientLayout
 
 export const metadata = {
-  description: 'A blank template using Payload in a Next.js app.',
-  title: 'Payload Blank Template',
+  title: 'SAS - Sistema de Administración de Servicios',
+  description: 'Sistema de Administración de Servicios',
 }
 
 export const dynamic = 'force-dynamic';
 
-export default async function RootLayout({
-  children,
+export default async function FrontendLayout({
+    children,
 }: {
-  children: React.ReactNode;
+    children: React.ReactNode
 }) {
-  const user = await getUser();
+    const user = await getUser();
 
-  return (
-    <html lang="en">
-      <body>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <Navbar user={user} />
-          <main>{children}</main>
-          <Footer/>
-          <Toaster position="top-center" />
-        </ThemeProvider>
-      </body>
-    </html>
-  )
+    return (
+        <html lang="es">
+            <body>
+                <div className="min-h-screen flex flex-col">
+                    <Navbar user={user} />
+                    {/* Usar ClientLayout para manejar las animaciones */}
+                    <ClientLayout>
+                        {children}
+                    </ClientLayout>
+                    <Footer />
+                    <Toaster position="top-center" />
+                </div>
+            </body>
+        </html>
+    )
 }
