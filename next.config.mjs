@@ -7,6 +7,7 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'bovio-sas-gray.vercel.app',
+        pathname: '/media/**',
       },
       {
         protocol: 'https',
@@ -35,6 +36,14 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: '*.net',
+      },
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+      },
+      {
+        protocol: 'http',
+        hostname: '127.0.0.1',
       },
     ],
   },

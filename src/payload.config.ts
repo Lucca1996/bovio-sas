@@ -38,6 +38,11 @@ export default buildConfig({
     },
   }),
   sharp,
+  upload: {
+    limits: {
+      fileSize: 5000000, // 5MB
+    },
+  },
   plugins: [
     payloadCloudPlugin(),
     // storage-adapter-placeholder
