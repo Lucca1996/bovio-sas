@@ -1,12 +1,12 @@
-export const getBaseUrl = () => {
+export const getBaseUrl = (): string => {
   if (typeof window !== 'undefined') {
     // En el navegador
     return window.location.origin
   }
 
-  if (process.env.NEXT_PUBLIC_SERVER_URL) {
-    // En producción
-    return process.env.NEXT_PUBLIC_SERVER_URL
+  if (process.env.VERCEL_URL) {
+    // En producción en Vercel
+    return `https://bovio-sas-gray.vercel.app`
   }
 
   // En desarrollo local

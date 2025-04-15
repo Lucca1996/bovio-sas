@@ -13,6 +13,7 @@ import { useRouter } from 'next/navigation'
 import { toggleCart } from '@/app/(frontend)/actions/cartActions'
 import { useCartStore } from '@/store/useCartStore'
 import { Media } from '@/types/media'
+import { getImageUrl } from '@/app/(frontend)/lib/getImageUrl'
 
 interface CartClientProps {
   initialCart: Product[]
@@ -75,16 +76,13 @@ export const CartClient: React.FC<CartClientProps> = ({ initialCart }) => {
     return subtotal - discount + shipping
   }
 
-  const getImageUrl = (image: string | number | { filename: string } | Media) => {
-    if (typeof image === 'string') {
-      return image
-    }
-    if (typeof image === 'number') {
-      return ''
-    }
-    if ('filename' in image) {
-      return `/api/media/file/${image.filename}`
-    }
+  const getProductImageUrl = (
+    image: string | number | { filename: string } | Media | null | undefined,
+  ): string => {
+    if (!image) return ''
+    if (typeof image === 'number') return ''
+    if (typeof image === 'string') return getImageUrl(image)
+    if ('filename' in image && image.filename) return getImageUrl(image.filename)
     return ''
   }
 
@@ -127,7 +125,7 @@ export const CartClient: React.FC<CartClientProps> = ({ initialCart }) => {
                     className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 flex gap-4"
                   >
                     <img
-                      src={product.gallery?.[0] ? getImageUrl(product.gallery[0].image) : ''}
+                      src={product.gallery?.[0] ? getProductImageUrl(product.gallery[0].image) : ''}
                       alt={product.title}
                       className="w-24 h-24 object-cover rounded-lg"
                     />
